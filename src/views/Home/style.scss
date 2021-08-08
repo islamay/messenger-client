@@ -1,0 +1,51 @@
+.home-page {
+  padding: 0 400px;
+
+  .wrapper {
+    display: grid;
+    min-height: 100vh;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    .texts {
+      h1 {
+        font-weight: 300;
+      }
+    }
+
+    .auth-container {
+      p {
+        font-size: 14px;
+      }
+
+      #auth-form {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        .auth-form-input {
+          border: 1px solid #dbdbdb;
+          outline: none;
+          margin: 10px 0;
+          padding: 5px;
+          border-radius: 5px;
+        }
+
+        .auth-form-submit {
+          margin: 10px 0;
+          border: none;
+          padding: 5px;
+          color: white;
+          background-color: #00c851;
+          border-radius: 5px;
+          font-weight: 600;
+        }
+
+        .switch-control {
+          color: #00c851;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
