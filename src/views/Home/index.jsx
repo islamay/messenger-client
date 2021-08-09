@@ -1,32 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { login, signup } from './services'
+import { authUser, login, signup } from "./services";
 import "./style.scss";
 
 const Home = (props) => {
-  const [authMethod, setAuthMethod] = useState()
-  const [username, setUsername] = useState()
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [authMethod, setAuthMethod] = useState();
+  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const [errorData, setErrorData] = useState();
 
+  const handleUsername = (e) => setUsername(e.target.value);
+  const handleEmail = (e) => setEmail(e.target.value);
+  const handlePassword = (e) => setPassword(e.target.value);
+  const handleConfirmPassword = (e) => setConfirmPassword(e.target.value);
 
-  const handleUsername = e => setUsername(e.target.value)
-  const handlePassword = e => setPassword(e.target.value)
-  const handleEmail = e => setEmail(e.target.value)
+  authUser(props);
 
   const loginWrapper = (e) => {
-    e.preventDefault()
-    login({ username, password })
-  }
+    e.preventDefault();
+    login({ username, password }, props).catch((error) => {
+      setErrorData(error.message);
+    });
+  };
 
   const signupWrapper = (e) => {
-    e.preventDefault()
-    signup({ username, email, password })
-  }
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      return setErrorData("password didnt match");
+    }
+    signup({ username, email, password }, props).catch((error) => {
+      setErrorData(error.message);
+    });
+  };
 
   useEffect(() => {
     let param = new URLSearchParams(window.location.search);
     param = param.get("m");
-
     setAuthMethod(param);
   }, []);
 
@@ -57,11 +67,9 @@ const Home = (props) => {
                 onChange={handlePassword}
               />
 
-              <button
-                className="auth-form-submit"
-              >Login
-              </button>
+              <button className="auth-form-submit">Login</button>
 
+              {!!errorData && <p style={{ color: "red" }}>{errorData}</p>}
               <p>
                 Belum memiliki akun?{" "}
                 <a href="?m=signup" className="switch-control">
@@ -86,21 +94,26 @@ const Home = (props) => {
                 placeholder="email"
                 className="auth-form-input"
                 required={true}
-                onChange={handlePassword}
+                onChange={handleEmail}
               />
               <input
                 type="password"
                 placeholder="password"
                 className="auth-form-input"
-                onChange={handleEmail}
+                onChange={handlePassword}
+                required={true}
+              />
+              <input
+                type="password"
+                placeholder="confirm password"
+                className="auth-form-input"
+                onChange={handleConfirmPassword}
                 required={true}
               />
 
-              <button
-                className="auth-form-submit"
-              >
-                Signup
-              </button>
+              <button className="auth-form-submit">Signup</button>
+
+              {!!errorData && <p style={{ color: "red" }}>{errorData}</p>}
 
               <p>
                 Sudah memiliki akun?{" "}

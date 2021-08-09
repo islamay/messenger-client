@@ -1,14 +1,40 @@
-import axios from 'axios'
+import axios from "axios";
+import { API_URL } from "../../helpers/env";
 
-export const login = ({ username, password }) => {
-    console.log(username);
-}
+export const authUser = (props) => {
+  const jwt = JSON.parse(localStorage.getItem("jwt"));
+  if (jwt) props.history.push("/");
+};
 
-export const signup = async ({ username, email, password }) => {
-    try {
-        const result = await axios.post('http://localhost:3001/user/signup', { username, email, password })
-        console.log(result.data);
-    } catch (error) {
-        console.log('A');
+export const login = async ({ username, password }, props) => {
+  try {
+    const result = await axios.post(`${API_URL}/user/login`, {
+      username,
+      password,
+    });
+    localStorage.setItem("jwt", JSON.stringify(result.data));
+    props.history.push("/");
+  } catch (error) {
+    throw new Error(error.response.data);
+  }
+};
+
+export const signup = async ({ username, email, password }, props) => {
+  try {
+    const result = await axios.post(`${API_URL}/user/signup`, {
+      username,
+      email,
+      password,
+    });
+    localStorage.setItem("jwt", JSON.stringify(result.data));
+    props.history.push("/");
+  } catch (error) {
+    const dupError = /E11000 duplicate key error/;
+
+    // dupError (username already exist)
+    console.log(error.response);
+    if (dupError.test(error.response.data)) {
+      throw new Error("username already exist");
     }
-}
+  }
+};
