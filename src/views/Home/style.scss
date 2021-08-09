@@ -49,3 +49,18 @@
     }
   }
 }
+
+
+@media only screen and (max-width: 768px) {
+
+  .home-page {
+    padding: 0;
+
+    .wrapper {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
