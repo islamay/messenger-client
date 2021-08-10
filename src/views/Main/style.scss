@@ -1,0 +1,102 @@
+.container {
+    height: 100vh;
+    display: flex;
+    grid-template-columns: 2fr 5fr;
+
+    .profile {
+        flex: 30%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .profile-header {
+            background-color: #ededed;
+            height: 60px;
+            box-sizing: border-box;
+            flex: none;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .find-user-form {
+            background-color: #f6f6f6;
+            padding: 8px;
+            display: flex;
+            border-right: 1px solid #e6e6e6;
+            border-bottom: 1px solid #e6e6e6;
+
+            .find-user-input {
+                flex-grow: 1;
+            }
+        }
+
+        .chat-room-thumb-container {
+            flex-direction: column;
+            background-color: white;
+            border-right: 1px solid #e6e6e6;
+            overflow-y: scroll;
+            flex-grow: 1;
+
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, .2)
+            }
+        }
+
+    }
+
+    .main {
+        flex: 70%;
+        display: flex;
+        flex-direction: column;
+
+        .main-header {
+            height: 60px;
+            background-color: #ededed;
+            border-left: 1px solid #e6e6e6;
+            border-bottom: 1px solid #e6e6e6;
+            box-sizing: border-box;
+            display: flex;
+            padding: 0 12px;
+
+            .chat-room-profile-container {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        .room {
+            flex-grow: 1;
+            background-image: url("../../statics/main-bg.png");
+        }
+
+        .message-controll {
+            background-color: #ededed;
+            padding: 10px 20px;
+
+            .message-form {
+                display: flex;
+                align-items: center;
+
+                .message-input {
+                    height: 45px;
+                    flex-grow: 1;
+                }
+
+                .message-send-button,
+                .message-widget {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .message-send-button {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

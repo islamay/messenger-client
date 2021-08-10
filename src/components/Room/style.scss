@@ -1,0 +1,25 @@
+.chat-room-component {
+    cursor: pointer;
+    display: flex;
+    padding: 17px 10px;
+    border-bottom: 1px solid rgb(241, 241, 241);
+
+    .chat-room-avatar {}
+
+    .chat-room-main {
+        flex-grow: 1;
+        padding: 0 15px;
+
+        .chat-room-name {
+            font-weight: 400;
+        }
+
+        .chat-room-last-message {
+            font-weight: 300;
+        }
+    }
+
+    .chat-room-last-time {
+        font-weight: 300;
+    }
+}

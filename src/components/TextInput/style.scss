@@ -1,0 +1,10 @@
+.text-input-component {
+    border: none;
+    outline: none;
+    font-family: "Open Sans", sans-serif;
+    height: 35px;
+    padding: 0 10px;
+    border-radius: 50px;
+
+    &::placeholder {}
+}
