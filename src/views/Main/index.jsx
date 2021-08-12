@@ -74,6 +74,7 @@ const Main = (props) => {
             {!!RoomData && RoomData.map((room) => {
               return (
                 <Room
+                  key={room.roomName}
                   className={room.roomName === focusRoom ? "room-focus" : ''}
                   onClick={clickRoom}
                   avatarSrc={room.avatarSrc}

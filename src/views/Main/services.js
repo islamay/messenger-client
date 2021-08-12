@@ -1,5 +1,8 @@
 import axios from "axios";
 import { API_URL } from "../../helpers/env";
+import { io } from 'socket.io-client'
+
+
 
 export const authUser = (props) => {
   const jwt = JSON.parse(localStorage.getItem("jwt"));
@@ -24,3 +27,13 @@ export const logout = async () => {
     console.log(error.response);
   }
 };
+
+
+
+const socket = io(`${API_URL}`, {
+  path: '/socket.io/socket.io.js'
+})
+
+socket.on('connect_error', (error) => {
+  console.log(error);
+})
