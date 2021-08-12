@@ -13,19 +13,42 @@ const Main = (props) => {
   authUser(props);
 
   const [room, setRoom] = useState();
+  const [focusRoom, setFocusRoom] = useState();
 
   const handleLogout = (e) => {
     e.preventDefault();
     logout();
   };
 
-  const handleClick = (e) => {
-    console.log(e.currentTarget.dataset);
+  const clickRoom = (e) => {
     setRoom({
       avatarSrc: e.currentTarget.dataset.avatarSrc,
       roomName: e.currentTarget.dataset.roomName,
     });
+    setFocusRoom(e.currentTarget.dataset.roomName)
   };
+
+  const RoomData = [
+    {
+      avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
+      roomName: "X RPL 4 FUN",
+      lastMessage: "iya",
+      lastMessageTime: "16:45",
+      lastSender: "RPL Kevin"
+    },
+    {
+      avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
+      roomName: "tes",
+      lastMessage: "tes tes",
+      lastMessageTime: "16:45"
+    },
+    {
+      avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
+      roomName: "aaa",
+      lastMessage: "ntaran",
+      lastMessageTime: "23:35"
+    },
+  ]
 
   return (
     <>
@@ -46,29 +69,23 @@ const Main = (props) => {
             />
           </form>
           <div className="chat-room-thumb-container">
-            <Room
-              onClick={handleClick}
-              avatarSrc="https://i.stack.imgur.com/34AD2.jpg"
-              roomName="X RPL 4 FUN"
-              lastMessage="iya"
-              lastMessageTime="16:45"
-              lastSender="SMK Kevin"
-            />
-            <Room
-              onClick={handleClick}
-              avatarSrc="https://i.stack.imgur.com/34AD2.jpg"
-              roomName="SMK Lila"
-              lastMessage="belom"
-              lastMessageTime="16:45"
-              lastSender="SMK Lila"
-            />
-            <Room
-              onClick={handleClick}
-              avatarSrc="https://cloud.jpnn.com/smart/600x375,t_resize,q_80/arsip/watermark/2020/07/26/muhammad-ilham-alfarisi-meraih-meraih-medali-emas-ajang-international-kangaroo-mathematics-contest-foto-dok-probadi-for-jpnncom-21.webp"
-              roomName="Ilham"
-              lastMessage="belom beb"
-              lastMessageTime="23:35"
-            />
+
+            {/* Looping Through Data */}
+            {!!RoomData && RoomData.map((room) => {
+              return (
+                <Room
+                  className={room.roomName === focusRoom ? "room-focus" : ''}
+                  onClick={clickRoom}
+                  avatarSrc={room.avatarSrc}
+                  roomName={room.roomName}
+                  lastMessage={room.lastMessage}
+                  lastMessageTime={room.lastMessageTime}
+                  lastSender={room.lastSender || null}
+                />
+              )
+            })}
+
+
           </div>
         </div>
         <div className="main">

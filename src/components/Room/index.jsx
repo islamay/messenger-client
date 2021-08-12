@@ -2,11 +2,11 @@ import React from 'react'
 import Avatar from '../Avatar'
 import './style.scss'
 
-const Room = ({ avatarSrc, roomName, lastMessage, lastMessageTime, lastSender, onClick }) => {
+const Room = ({ avatarSrc, roomName, lastMessage, lastMessageTime, lastSender, onClick, className }) => {
 
     return (
         <div
-            className="chat-room-component"
+            className={`chat-room-component ${className}`}
             onClick={onClick}
             data-avatar-src={avatarSrc}
             data-room-name={roomName}

@@ -4,8 +4,6 @@
     padding: 17px 10px;
     border-bottom: 1px solid rgb(241, 241, 241);
 
-    .chat-room-avatar {}
-
     .chat-room-main {
         flex-grow: 1;
         padding: 0 15px;
@@ -22,4 +20,8 @@
     .chat-room-last-time {
         font-weight: 300;
     }
+}
+
+.room-focus {
+    background-color: #ebebeb;
 }
