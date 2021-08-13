@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar";
 import TextInput from "../../components/TextInput";
 import Room from "../../components/Room";
@@ -6,7 +6,7 @@ import { IoMdSend } from "react-icons/io";
 import { AiOutlineLink } from "react-icons/ai";
 import { HiEmojiHappy } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
-import { authUser, logout } from "./services";
+import { authUser, logout, fetchRoomData } from "./services";
 import "./style.scss";
 
 const Main = (props) => {
@@ -14,6 +14,7 @@ const Main = (props) => {
 
   const [room, setRoom] = useState();
   const [focusRoom, setFocusRoom] = useState();
+  const [roomData, setRoomData] = useState();
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -28,27 +29,29 @@ const Main = (props) => {
     setFocusRoom(e.currentTarget.dataset.roomName)
   };
 
-  const RoomData = [
-    {
-      avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
-      roomName: "X RPL 4 FUN",
-      lastMessage: "iya",
-      lastMessageTime: "16:45",
-      lastSender: "RPL Kevin"
-    },
-    {
-      avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
-      roomName: "tes",
-      lastMessage: "tes tes",
-      lastMessageTime: "16:45"
-    },
-    {
-      avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
-      roomName: "aaa",
-      lastMessage: "ntaran",
-      lastMessageTime: "23:35"
-    },
-  ]
+  useEffect(fetchRoomData(setRoomData), [])
+
+  // const RoomData = [
+  //   {
+  //     avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
+  //     roomName: "X RPL 4 FUN",
+  //     lastMessage: "iya",
+  //     lastMessageTime: "16:45",
+  //     lastSender: "RPL Kevin"
+  //   },
+  //   {
+  //     avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
+  //     roomName: "tes",
+  //     lastMessage: "tes tes",
+  //     lastMessageTime: "16:45"
+  //   },
+  //   {
+  //     avatarSrc: "https://i.stack.imgur.com/34AD2.jpg",
+  //     roomName: "aaa",
+  //     lastMessage: "ntaran",
+  //     lastMessageTime: "23:35"
+  //   },
+  // ]
 
   return (
     <>
@@ -71,7 +74,7 @@ const Main = (props) => {
           <div className="chat-room-thumb-container">
 
             {/* Looping Through Data */}
-            {!!RoomData && RoomData.map((room) => {
+            {!!roomData && roomData.map((room) => {
               return (
                 <Room
                   key={room.roomName}

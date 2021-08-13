@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URL } from "../../helpers/env";
 
 export const authUser = (props) => {
-  const jwt = JSON.parse(localStorage.getItem("jwt"));
+  const jwt = JSON.parse(localStorage.getItem("login"));
   if (jwt) props.history.push("/");
 };
 
@@ -12,7 +12,7 @@ export const login = async ({ username, password }, props) => {
       username,
       password,
     });
-    localStorage.setItem("jwt", JSON.stringify(result.data));
+    localStorage.setItem("login", JSON.stringify(result.data));
     props.history.push("/");
   } catch (error) {
     throw new Error(error.response.data);
@@ -26,7 +26,7 @@ export const signup = async ({ username, email, password }, props) => {
       email,
       password,
     });
-    localStorage.setItem("jwt", JSON.stringify(result.data));
+    localStorage.setItem("login", JSON.stringify(result.data));
     props.history.push("/");
   } catch (error) {
     const dupError = /E11000 duplicate key error/;
