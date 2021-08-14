@@ -28,8 +28,7 @@ export const logout = async () => {
   }
 };
 
-export const fetchRoomData = (setRoomData) => {
-  return async () => {
+export const fetchRoomData = async (setRoomData) => {
     const login = JSON.parse(localStorage.getItem("login"));
 
 
@@ -61,8 +60,38 @@ export const fetchRoomData = (setRoomData) => {
     return () => {
       console.log('Cleaned Up');
     }
+  
+}
+
+export const startChat = async (e) => {
+  e.preventDefault()
+  const interlocutorUsername = e.target.elements.findUserInput.value
+
+  const config = {
+    headers: {
+      authorization: `Bearer ${JSON.parse(localStorage.getItem('login')).token}`
+    }
+  }
+
+  try {
+    
+    const roomRequest = await axios.post(`${API_URL}/room/private/create`, {
+      interlocutorUsername
+    }, config)
+
+    if (roomRequest.status === 201) {
+      const res = await axios.get(`${API_URL}/user/find-by-token`, config)
+      console.log(res);
+    }
+
+
+
+  } catch (error) {
+    console.log(error.response);
   }
 }
+
+
 
 const socket = io(`${API_URL}`, {
   path: '/socket.io/socket.io.js'

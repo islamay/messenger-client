@@ -3,18 +3,21 @@ import Avatar from "../../components/Avatar";
 import TextInput from "../../components/TextInput";
 import Room from "../../components/Room";
 import { IoMdSend } from "react-icons/io";
-import { AiOutlineLink } from "react-icons/ai";
+import { AiOutlineLink, AiOutlineSearch } from "react-icons/ai";
 import { HiEmojiHappy } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
-import { authUser, logout, fetchRoomData } from "./services";
+import { authUser, logout, fetchRoomData, startChat } from "./services";
 import "./style.scss";
 
 const Main = (props) => {
   authUser(props);
 
+
   const [room, setRoom] = useState();
   const [focusRoom, setFocusRoom] = useState();
   const [roomData, setRoomData] = useState();
+
+
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -29,7 +32,11 @@ const Main = (props) => {
     setFocusRoom(e.currentTarget.dataset.roomName)
   };
 
-  useEffect(fetchRoomData(setRoomData), [])
+  const handleStartChatForm = startChat
+
+  useEffect(() => {
+    fetchRoomData(setRoomData)
+  }, [])
 
   // const RoomData = [
   //   {
@@ -65,11 +72,15 @@ const Main = (props) => {
               <BiLogOut size={25} fill="#919191" />
             </button>
           </header>
-          <form className="find-user-form">
+          <form className="find-user-form" onSubmit={handleStartChatForm}>
             <TextInput
+              name="findUserInput"
               className="find-user-input"
               placeholder="Insert username to start"
             />
+            <button type="submit" className="submit-find-user">
+              <AiOutlineSearch size={20} fill="#919191"/>
+            </button>
           </form>
           <div className="chat-room-thumb-container">
 
