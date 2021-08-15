@@ -96,6 +96,9 @@
     .room {
       flex-grow: 1;
       background-image: url("../../statics/main-bg.png");
+      padding: 15px 80px;
+      display: flex;
+      flex-direction: column;
     }
 
     .message-controll {

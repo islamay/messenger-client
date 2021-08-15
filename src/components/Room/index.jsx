@@ -2,7 +2,7 @@ import React from 'react'
 import Avatar from '../Avatar'
 import './style.scss'
 
-const Room = ({ avatarSrc, roomName, lastMessage, lastMessageTime, lastSender, onClick, className }) => {
+const Room = ({ avatarSrc, roomName, lastMessage, lastMessageTime, lastSender, onClick, className, roomId }) => {
 
     return (
         <div
@@ -10,6 +10,7 @@ const Room = ({ avatarSrc, roomName, lastMessage, lastMessageTime, lastSender, o
             onClick={onClick}
             data-avatar-src={avatarSrc}
             data-room-name={roomName}
+            data-room-id={roomId}
         >
             <div className="chat-room-avatar">
                 <Avatar avatarSrc={avatarSrc} />

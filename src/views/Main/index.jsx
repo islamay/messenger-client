@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Avatar from "../../components/Avatar";
-import TextInput from "../../components/TextInput";
-import Room from "../../components/Room";
 import { IoMdSend } from "react-icons/io";
 import { AiOutlineLink, AiOutlineSearch } from "react-icons/ai";
 import { HiEmojiHappy } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
-import { authUser, logout, fetchRoomData, startChat, showMessages } from "./services";
+import Avatar from "../../components/Avatar";
+import TextInput from "../../components/TextInput";
+import Room from "../../components/Room";
+import ChatBox from '../../components/ChatBox'
+import { authUser, logout, fetchRoomData, startChat, showMessages, fetchGeneralMessage } from "./services";
 import "./style.scss";
 
 const Main = (props) => {
@@ -16,22 +17,46 @@ const Main = (props) => {
   const [room, setRoom] = useState();
   const [focusRoom, setFocusRoom] = useState();
   const [roomData, setRoomData] = useState();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('login')))
-  const [messages, setMessages] = useState()
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('login')).publicProfile)
+  const [generalMessages, setGeneralMessages] = useState()
+  const [roomMessages, setRoomMessages] = useState()
 
+  console.log(roomMessages);
 
   const handleLogout = (e) => {
     e.preventDefault();
     logout();
   };
 
-  const clickRoom = showMessages({ setRoom, setFocusRoom, setMessages })
+
+  const clickRoom = showMessages({ setRoom, setFocusRoom })
 
   const handleStartChatForm = startChat(setUser)
 
   useEffect(() => {
     fetchRoomData(setRoomData)
   }, [user])
+
+  useEffect(() => {
+    if (roomData) {
+      fetchGeneralMessage(setGeneralMessages, roomData)
+    }
+  }, [roomData])
+
+  useEffect(() => {
+    if (focusRoom) {
+      let isChanged = false
+      generalMessages.forEach((roomMessage) => {
+        if (roomMessage.length !== 0 && roomMessage[0].toRoom === focusRoom) {
+          setRoomMessages(roomMessage)
+          isChanged = true
+        }
+      })
+
+      if (!isChanged) setRoomMessages([])
+    }
+
+  }, [focusRoom])
 
   // const RoomData = [
   //   {
@@ -54,7 +79,6 @@ const Main = (props) => {
   //     lastMessageTime: "23:35"
   //   },
   // ]
-
   return (
     <>
       <div className="container">
@@ -83,7 +107,8 @@ const Main = (props) => {
             {!!roomData && roomData.map((room) => {
               return (
                 <Room
-                  key={room.roomName}
+                  key={room.roomId}
+                  roomId={room.roomId}
                   className={room.roomName === focusRoom ? "room-focus" : ''}
                   onClick={clickRoom}
                   avatarSrc={room.avatarSrc}
@@ -111,24 +136,43 @@ const Main = (props) => {
               </>
             )}
           </header>
-          <div className="room">
-            <div><h1>HEllo</h1></div>
-          </div>
+          {focusRoom && (
+            <>
+              <div className="room">
+                {/* <ChatBox
+                  message="Bantuin gw pisika dong"
+                  date="12.00"
+                /> */}
 
-          <div className="message-controll">
-            <form action="" className="message-form">
-              <button disabled={true} className="message-widget">
-                <HiEmojiHappy size={30} fill="#919191" />
-              </button>
-              <button disabled={true} className="message-widget">
-                <AiOutlineLink size={30} fill="#919191" />
-              </button>
-              <TextInput className="message-input" placeholder="Type message" />
-              <button className="message-send-button">
-                <IoMdSend size={30} fill="#919191" />
-              </button>
-            </form>
-          </div>
+                {roomMessages && roomMessages.map((message) => {
+                  return (
+                    <ChatBox
+                      isMe={message.sender === user._id}
+                      message={message.message}
+                      date={message.time}
+                    />
+                  )
+                })}
+
+              </div>
+
+              <div className="message-controll">
+                <form action="" className="message-form">
+                  <button disabled={true} className="message-widget">
+                    <HiEmojiHappy size={30} fill="#919191" />
+                  </button>
+                  <button disabled={true} className="message-widget">
+                    <AiOutlineLink size={30} fill="#919191" />
+                  </button>
+                  <TextInput className="message-input" placeholder="Type message" />
+                  <button className="message-send-button">
+                    <IoMdSend size={30} fill="#919191" />
+                  </button>
+                </form>
+              </div>
+            </>
+          )}
+
         </div>
       </div>
     </>

@@ -1,0 +1,38 @@
+.cb {
+    margin: 5px 0;
+    background-color: white;
+    width: max-content;
+    max-width: 500px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
+
+    .sender {
+        color: #029d00;
+    }
+
+    .cb-body {
+        display: flex;
+
+        .chat-content {
+            font-size: 13.5px;
+            font-weight: 400;
+        }
+
+        .chat-date {
+            color: rgba(0, 0, 0, .45);
+            font-size: 10px;
+            text-align: right;
+            padding-left: 30px;
+            align-self: flex-end;
+        }
+    }
+
+}
+
+.cb.right {
+    align-self: flex-end;
+    background-color: #dcf8c6;
+}

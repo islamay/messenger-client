@@ -47,7 +47,8 @@ export const fetchRoomData = async (setRoomData) => {
     roomDetails = roomDetails.map((roomDetail) => {
       return {
         roomName: roomDetail.data.username,
-        avatarSrc: roomDetail.data.imgSrc
+        avatarSrc: roomDetail.data.imgSrc,
+        roomId: roomDetail.data.roomId
       }
     })
 
@@ -100,7 +101,7 @@ export const startChat = (setUser) => {
 
 }
 
-export const showMessages = ({ setRoom, setFocusRoom, setMessages }) => {
+export const showMessages = ({ setRoom, setFocusRoom }) => {
 
   return async (e) => {
 
@@ -108,10 +109,36 @@ export const showMessages = ({ setRoom, setFocusRoom, setMessages }) => {
       avatarSrc: e.currentTarget.dataset.avatarSrc,
       roomName: e.currentTarget.dataset.roomName,
     });
-    setFocusRoom(e.currentTarget.dataset.roomName)
+    setFocusRoom(e.currentTarget.dataset.roomId)
+
 
 
   }
+}
+
+export const fetchGeneralMessage = async (setGeneralMessage, roomData) => {
+
+  let login = JSON.parse(localStorage.getItem('login'))
+
+  const config = {
+    headers: {
+      authorization: `Bearer ${login.token}`
+    }
+  }
+
+  let messagesPromises = []
+
+  roomData !== 0 && roomData.forEach((room) => {
+    const messagePromise = axios.get(`${API_URL}/room/get/messages/${room.roomId}`, config)
+    messagesPromises.push(messagePromise)
+  })
+
+  const messagesRaw = await Promise.all(messagesPromises)
+  const messages = messagesRaw.map((message) => {
+    return message.data
+  })
+
+  setGeneralMessage(messages)
 }
 
 
