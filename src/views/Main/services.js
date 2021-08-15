@@ -29,66 +29,75 @@ export const logout = async () => {
 };
 
 export const fetchRoomData = async (setRoomData) => {
-    const login = JSON.parse(localStorage.getItem("login"));
+  const login = JSON.parse(localStorage.getItem("login"));
 
-
-    const config = {
-      headers: {
-        authorization: `Bearer ${!!login && login.token}`,
-      },
-    };
-    try {
-      let datas = []
-      login.publicProfile.rooms.forEach((room) => {
-        datas.push(axios.post(`${API_URL}/room/get`, { roomId: room.roomId }, config))
-      })
-
-      let roomDetails = await Promise.all(datas)
-      roomDetails = roomDetails.map((roomDetail) => {
-        return {
-          roomName: roomDetail.data.username,
-          avatarSrc: roomDetail.data.imgSrc
-        }
-      })
-
-      setRoomData(roomDetails)
-
-    } catch (error) {
-
-    }
-
-    return () => {
-      console.log('Cleaned Up');
-    }
-  
-}
-
-export const startChat = async (e) => {
-  e.preventDefault()
-  const interlocutorUsername = e.target.elements.findUserInput.value
 
   const config = {
     headers: {
-      authorization: `Bearer ${JSON.parse(localStorage.getItem('login')).token}`
-    }
-  }
-
+      authorization: `Bearer ${!!login && login.token}`,
+    },
+  };
   try {
-    
-    const roomRequest = await axios.post(`${API_URL}/room/private/create`, {
-      interlocutorUsername
-    }, config)
+    let datas = []
+    login.publicProfile.rooms.forEach((room) => {
+      datas.push(axios.post(`${API_URL}/room/get`, { roomId: room.roomId }, config))
+    })
 
-    if (roomRequest.status === 201) {
-      const res = await axios.get(`${API_URL}/user/find-by-token`, config)
-      console.log(res);
-    }
+    let roomDetails = await Promise.all(datas)
+    roomDetails = roomDetails.map((roomDetail) => {
+      return {
+        roomName: roomDetail.data.username,
+        avatarSrc: roomDetail.data.imgSrc
+      }
+    })
 
-
+    setRoomData(roomDetails)
 
   } catch (error) {
-    console.log(error.response);
+
   }
+
+  return () => {
+    console.log('Cleaned Up');
+  }
+
+}
+
+export const startChat = (setUser) => {
+
+
+  return async (e) => {
+    e.preventDefault()
+    const interlocutorUsername = e.target.elements.findUserInput.value
+
+    let login = JSON.parse(localStorage.getItem('login'))
+
+    const config = {
+      headers: {
+        authorization: `Bearer ${login.token}`
+      }
+    }
+
+    try {
+
+      const roomRequest = await axios.post(`${API_URL}/room/private/create`, {
+        interlocutorUsername
+      }, config)
+
+      if (roomRequest.status === 201) {
+        const res = await axios.get(`${API_URL}/user/find-by-token`, config)
+
+        login.publicProfile = res.data
+        localStorage.setItem('login', JSON.stringify(login))
+        setUser(login)
+        return console.log(res);
+      }
+
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
 }
 
 

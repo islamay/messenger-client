@@ -16,7 +16,7 @@ const Main = (props) => {
   const [room, setRoom] = useState();
   const [focusRoom, setFocusRoom] = useState();
   const [roomData, setRoomData] = useState();
-
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('login')))
 
 
   const handleLogout = (e) => {
@@ -32,11 +32,11 @@ const Main = (props) => {
     setFocusRoom(e.currentTarget.dataset.roomName)
   };
 
-  const handleStartChatForm = startChat
+  const handleStartChatForm = startChat(setUser)
 
   useEffect(() => {
     fetchRoomData(setRoomData)
-  }, [])
+  }, [user])
 
   // const RoomData = [
   //   {
@@ -79,7 +79,7 @@ const Main = (props) => {
               placeholder="Insert username to start"
             />
             <button type="submit" className="submit-find-user">
-              <AiOutlineSearch size={20} fill="#919191"/>
+              <AiOutlineSearch size={20} fill="#919191" />
             </button>
           </form>
           <div className="chat-room-thumb-container">
