@@ -6,7 +6,7 @@ import { IoMdSend } from "react-icons/io";
 import { AiOutlineLink, AiOutlineSearch } from "react-icons/ai";
 import { HiEmojiHappy } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
-import { authUser, logout, fetchRoomData, startChat } from "./services";
+import { authUser, logout, fetchRoomData, startChat, showMessages } from "./services";
 import "./style.scss";
 
 const Main = (props) => {
@@ -17,6 +17,7 @@ const Main = (props) => {
   const [focusRoom, setFocusRoom] = useState();
   const [roomData, setRoomData] = useState();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('login')))
+  const [messages, setMessages] = useState()
 
 
   const handleLogout = (e) => {
@@ -24,13 +25,7 @@ const Main = (props) => {
     logout();
   };
 
-  const clickRoom = (e) => {
-    setRoom({
-      avatarSrc: e.currentTarget.dataset.avatarSrc,
-      roomName: e.currentTarget.dataset.roomName,
-    });
-    setFocusRoom(e.currentTarget.dataset.roomName)
-  };
+  const clickRoom = showMessages({ setRoom, setFocusRoom, setMessages })
 
   const handleStartChatForm = startChat(setUser)
 
@@ -116,7 +111,9 @@ const Main = (props) => {
               </>
             )}
           </header>
-          <div className="room"></div>
+          <div className="room">
+            <div><h1>HEllo</h1></div>
+          </div>
 
           <div className="message-controll">
             <form action="" className="message-form">

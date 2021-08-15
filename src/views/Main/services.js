@@ -40,7 +40,7 @@ export const fetchRoomData = async (setRoomData) => {
   try {
     let datas = []
     login.publicProfile.rooms.forEach((room) => {
-      datas.push(axios.post(`${API_URL}/room/get`, { roomId: room.roomId }, config))
+      datas.push(axios.get(`${API_URL}/room/get/${room.roomId}`, config))
     })
 
     let roomDetails = await Promise.all(datas)
@@ -98,6 +98,20 @@ export const startChat = (setUser) => {
     }
   }
 
+}
+
+export const showMessages = ({ setRoom, setFocusRoom, setMessages }) => {
+
+  return async (e) => {
+
+    setRoom({
+      avatarSrc: e.currentTarget.dataset.avatarSrc,
+      roomName: e.currentTarget.dataset.roomName,
+    });
+    setFocusRoom(e.currentTarget.dataset.roomName)
+
+
+  }
 }
 
 
