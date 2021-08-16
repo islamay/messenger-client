@@ -2,12 +2,18 @@ import axios from "axios";
 import { API_URL } from "../../helpers/env";
 import { io } from 'socket.io-client'
 
+const socket = io(`${API_URL}`, {
+  path: '/socket.io/socket.io.js'
+})
+
+socket.on('connect_error', (error) => {
+  console.log(error);
+})
+
 export const authUser = (props) => {
   const login = JSON.parse(localStorage.getItem("login"));
   if (!login) return props.history.push("/auth");
 };
-
-
 
 export const logout = async () => {
   const login = JSON.parse(localStorage.getItem("login"));
@@ -118,6 +124,8 @@ export const showMessages = ({ setRoom, setFocusRoom }) => {
 
 export const fetchGeneralMessage = async (setGeneralMessage, roomData) => {
 
+  if (!roomData) return null
+
   let login = JSON.parse(localStorage.getItem('login'))
 
   const config = {
@@ -141,12 +149,45 @@ export const fetchGeneralMessage = async (setGeneralMessage, roomData) => {
   setGeneralMessage(messages)
 }
 
+export const handleSendMessage = (message, setMessageInput, setRoomMessage, focusRoom) => {
+
+  return async (e) => {
+    e.preventDefault()
+    setMessageInput('')
+
+    const login = JSON.parse(localStorage.getItem("login"));
+
+    const config = {
+      headers: {
+        authorization: `Bearer ${login.token}`
+      }
+    }
+
+    try {
+      const result = await axios.post(`${API_URL}/message/send`,
+        {
+          message,
+          roomId: focusRoom
+        },
+        config
+      )
+
+      setRoomMessage((prev) => {
+        return [...prev, result.data]
+      })
 
 
-const socket = io(`${API_URL}`, {
-  path: '/socket.io/socket.io.js'
-})
 
-socket.on('connect_error', (error) => {
-  console.log(error);
-})
+
+      console.log(result);
+
+    } catch (error) {
+      console.log(error.response);
+    }
+
+  }
+
+}
+
+
+

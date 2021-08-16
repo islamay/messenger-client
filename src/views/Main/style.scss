@@ -99,30 +99,39 @@
       padding: 15px 80px;
       display: flex;
       flex-direction: column;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.2);
+      }
     }
+  }
 
-    .message-controll {
-      background-color: #ededed;
-      padding: 10px 20px;
+  .message-controll {
+    background-color: #ededed;
+    padding: 10px 20px;
 
-      .message-form {
+    .message-form {
+      display: flex;
+      align-items: center;
+
+      .message-input {
+        height: 45px;
+        flex-grow: 1;
+      }
+
+      .message-send-button,
+      .message-widget {
         display: flex;
         align-items: center;
+      }
 
-        .message-input {
-          height: 45px;
-          flex-grow: 1;
-        }
-
-        .message-send-button,
-        .message-widget {
-          display: flex;
-          align-items: center;
-        }
-
-        .message-send-button {
-          cursor: pointer;
-        }
+      .message-send-button {
+        cursor: pointer;
       }
     }
   }

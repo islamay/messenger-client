@@ -12,6 +12,7 @@ export const login = async ({ username, password }, props) => {
       username,
       password,
     });
+    console.log(result.data);
     localStorage.setItem("login", JSON.stringify(result.data));
     props.history.push("/");
   } catch (error) {

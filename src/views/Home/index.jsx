@@ -20,6 +20,7 @@ const Home = (props) => {
   const loginWrapper = (e) => {
     e.preventDefault();
     login({ username, password }, props).catch((error) => {
+
       setErrorData(error.message);
     });
   };
