@@ -96,7 +96,7 @@ export const startChat = (setUser) => {
 
         login.publicProfile = res.data
         localStorage.setItem('login', JSON.stringify(login))
-        setUser(login)
+        setUser(login.publicProfile)
         return console.log(res);
       }
 
@@ -188,6 +188,3 @@ export const handleSendMessage = (message, setMessageInput, setRoomMessage, focu
   }
 
 }
-
-
-

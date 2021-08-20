@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 import moment from 'moment'
-import { IoMdSend } from "react-icons/io";
-import { AiOutlineLink, AiOutlineSearch } from "react-icons/ai";
-import { HiEmojiHappy } from "react-icons/hi";
-import { BiLogOut } from "react-icons/bi";
-import Avatar from "../../components/Avatar";
-import TextInput from "../../components/TextInput";
-import Room from "../../components/Room";
+import { IoMdSend } from "react-icons/io"
+import { AiOutlineLink, AiOutlineSearch } from "react-icons/ai"
+import { HiEmojiHappy } from "react-icons/hi"
+import { BiLogOut } from "react-icons/bi"
+import Avatar from "../../components/Avatar"
+import TextInput from "../../components/TextInput"
+import Room from "../../components/Room"
 import ChatBox from '../../components/ChatBox'
 import {
   authUser,
@@ -16,17 +16,17 @@ import {
   showMessages,
   fetchGeneralMessage,
   handleSendMessage
-} from "./services";
-import "./style.scss";
+} from "./services"
+import "./style.scss"
 
 const Main = (props) => {
-  authUser(props);
+  authUser(props)
 
   const initUser = !!JSON.parse(localStorage.getItem('login')) && JSON.parse(localStorage.getItem('login')).publicProfile
 
-  const [room, setRoom] = useState();
-  const [focusRoom, setFocusRoom] = useState();
-  const [roomData, setRoomData] = useState();
+  const [room, setRoom] = useState()
+  const [focusRoom, setFocusRoom] = useState()
+  const [roomData, setRoomData] = useState()
   const [user, setUser] = useState(initUser)
   const [generalMessages, setGeneralMessages] = useState()
   const [roomMessages, setRoomMessages] = useState()
@@ -34,24 +34,14 @@ const Main = (props) => {
 
 
   const handleMessageInput = e => setMessageInput(e.target.value)
-
   const handleMessageForm = handleSendMessage(messageInput, setMessageInput, setRoomMessages, focusRoom)
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    logout();
-  };
-
-  console.log(roomData);
-
+  const handleLogout = (e) => { e.preventDefault(); logout() }
 
   const clickRoom = showMessages({ setRoom, setFocusRoom })
 
   const handleStartChatForm = startChat(setUser)
 
-  useEffect(() => {
-    fetchRoomData(setRoomData)
-  }, [user])
+  useEffect(() => { fetchRoomData(setRoomData) }, [user])
 
   useEffect(() => {
     fetchGeneralMessage(setGeneralMessages, roomData)
@@ -92,7 +82,7 @@ const Main = (props) => {
               className="find-user-input"
               placeholder="Insert username to start"
             />
-            <button type="submit" className="submit-find-user">
+            <button className="submit-find-user">
               <AiOutlineSearch size={20} fill="#919191" />
             </button>
           </form>
@@ -104,7 +94,7 @@ const Main = (props) => {
                 <Room
                   key={room.roomId}
                   roomId={room.roomId}
-                  className={room.roomName === focusRoom ? "room-focus" : ''}
+                  className={room.roomId === focusRoom ? "room-focus" : ''}
                   onClick={clickRoom}
                   avatarSrc={room.avatarSrc}
                   roomName={room.roomName}
@@ -136,6 +126,9 @@ const Main = (props) => {
               <div className="room">
 
                 {roomMessages && roomMessages.map((message) => {
+                  console.log(message.sender)
+                  console.log(user._id)
+                  console.log(user)
                   return (
                     <ChatBox
                       key={message._id}
@@ -150,14 +143,20 @@ const Main = (props) => {
 
               <div className="message-controll">
                 <form action="" className="message-form" onSubmit={handleMessageForm}>
-                  <button disabled={true} className="message-widget">
+                  <button disabled={true} type="button" className="message-widget">
                     <HiEmojiHappy size={30} fill="#919191" />
                   </button>
-                  <button disabled={true} className="message-widget">
+                  <button disabled={true} type="button" className="message-widget">
                     <AiOutlineLink size={30} fill="#919191" />
                   </button>
-                  <TextInput required={true} value={messageInput} onChange={handleMessageInput} className="message-input" placeholder="Type message" />
-                  <button className="message-send-button">
+                  <TextInput
+                    required={true}
+                    value={messageInput}
+                    onChange={handleMessageInput}
+                    className="message-input"
+                    placeholder="Type message"
+                  />
+                  <button default className="message-send-button">
                     <IoMdSend size={30} fill="#919191" />
                   </button>
                 </form>
@@ -168,7 +167,7 @@ const Main = (props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Main;
+export default Main

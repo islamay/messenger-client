@@ -20,12 +20,6 @@ const ProtectedRoute = ({ component: Component, history, ...rest }) => {
         .catch((error) => {
             console.log(error.response);
         })
-        .then((result) => {
-            console.log(result.data);
-        })
-        .finally(() => {
-            console.log('Hi');
-        })
 
 
 
