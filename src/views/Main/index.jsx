@@ -3,7 +3,7 @@ import moment from 'moment'
 import { IoMdSend } from "react-icons/io"
 import { AiOutlineLink, AiOutlineSearch } from "react-icons/ai"
 import { HiEmojiHappy } from "react-icons/hi"
-import { BiLogOut } from "react-icons/bi"
+import { BiLogOut, BiArrowBack } from "react-icons/bi"
 import Avatar from "../../components/Avatar"
 import TextInput from "../../components/TextInput"
 import Room from "../../components/Room"
@@ -31,11 +31,13 @@ const Main = (props) => {
   const [generalMessages, setGeneralMessages] = useState()
   const [roomMessages, setRoomMessages] = useState()
   const [messageInput, setMessageInput] = useState('')
+  const [focusMain, setFocusMain] = useState(false)
 
 
   const handleMessageInput = e => setMessageInput(e.target.value)
   const handleMessageForm = handleSendMessage(messageInput, setMessageInput, setRoomMessages, focusRoom)
   const handleLogout = (e) => { e.preventDefault(); logout() }
+  const handleBackButtonInRoom = () => { setFocusRoom(); setFocusMain(false); }
 
   const clickRoom = showMessages({ setRoom, setFocusRoom })
 
@@ -50,7 +52,6 @@ const Main = (props) => {
   useEffect(() => {
     if (focusRoom) {
       let isChanged = false
-      // eslint-disable-next-line
       generalMessages.forEach((roomMessage) => {
         if (roomMessage.length !== 0 && roomMessage[0].toRoom === focusRoom) {
           setRoomMessages(roomMessage)
@@ -58,19 +59,22 @@ const Main = (props) => {
         }
       })
 
+      setFocusMain(true)
+
       if (!isChanged) setRoomMessages([])
     }
 
-  }, [focusRoom, generalMessages])
+  }, [focusRoom, generalMessages, focusMain])
+
 
 
   return (
     <>
       <div className="container">
-        <div className="profile">
+        <div className={`profile ${!focusMain && 'profile-focus'}`}>
           <header className="profile-header">
             <div className="profile-avatar-container">
-              <Avatar avatarSrc="https://i.stack.imgur.com/34AD2.jpg" />
+              <Avatar avatarSrc={user.imgSrc} />
             </div>
             <button onClick={handleLogout} className="logout-button">
               <BiLogOut size={25} fill="#919191" />
@@ -108,10 +112,16 @@ const Main = (props) => {
 
           </div>
         </div>
-        <div className="main">
+        <div className={`main ${focusMain && 'main-focus'}`}>
           <header className="main-header">
             {room && (
               <>
+                <button onClick={handleBackButtonInRoom} className="room-back-button">
+                  <BiArrowBack
+                    fill="#919191"
+                    size={30}
+                  />
+                </button>
                 <div className="chat-room-profile-container">
                   <Avatar avatarSrc={room.avatarSrc} />
                 </div>
@@ -150,6 +160,7 @@ const Main = (props) => {
                     <AiOutlineLink size={30} fill="#919191" />
                   </button>
                   <TextInput
+                    type="textarea"
                     required={true}
                     value={messageInput}
                     onChange={handleMessageInput}

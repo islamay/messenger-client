@@ -1,3 +1,6 @@
+$xsm-bp: 576px;
+$android-theme-color: #355550;
+
 .container {
   height: 100vh;
   display: flex;
@@ -77,6 +80,10 @@
       display: flex;
       padding: 0 12px;
 
+      .room-back-button {
+        display: none;
+      }
+
       .chat-room-profile-container {
         display: flex;
         align-items: center;
@@ -132,6 +139,65 @@
 
       .message-send-button {
         cursor: pointer;
+      }
+    }
+  }
+}
+
+@media (max-width: $xsm-bp) {
+
+  .container {
+
+    .profile.profile-focus {
+      flex: 100%;
+      display: flex;
+    }
+
+    .main.main-focus {
+      flex: 100%;
+      display: flex;
+    }
+
+    .profile {
+      display: none;
+
+      .profile-header {}
+
+      .chat-room-thumb-container {
+
+        .room-focus {
+          background-color: white;
+
+        }
+      }
+
+      .find-user-form {
+
+        border: none;
+
+      }
+    }
+
+    .main {
+      display: none;
+
+      .main-header {
+
+        .room-back-button {
+          display: inline-block;
+        }
+      }
+
+      .room {
+        padding: 10px 20px;
+
+      }
+
+      .message-controll {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
       }
     }
   }
