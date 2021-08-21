@@ -1,14 +1,5 @@
 import axios from "axios";
 import { API_URL } from "../../helpers/env";
-import { io } from 'socket.io-client'
-
-const socket = io(`${API_URL}`, {
-  path: '/socket.io/socket.io.js'
-})
-
-socket.on('connect_error', (error) => {
-  console.log(error);
-})
 
 export const authUser = (props) => {
   const login = JSON.parse(localStorage.getItem("login"));
@@ -175,11 +166,6 @@ export const handleSendMessage = (message, setMessageInput, setRoomMessage, focu
       setRoomMessage((prev) => {
         return [...prev, result.data]
       })
-
-
-
-
-      console.log(result);
 
     } catch (error) {
       console.log(error.response);

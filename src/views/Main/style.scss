@@ -72,7 +72,7 @@ $android-theme-color: #355550;
     flex-direction: column;
 
     .main-header {
-      height: 60px;
+      height: 60px !important;
       background-color: #ededed;
       border-left: 1px solid #e6e6e6;
       border-bottom: 1px solid #e6e6e6;

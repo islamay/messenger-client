@@ -1,7 +1,5 @@
 import React from 'react'
-import axios from 'axios'
 import { Route, Redirect } from 'react-router-dom'
-import { API_URL } from '../../helpers/env'
 
 const ProtectedRoute = ({ component: Component, history, ...rest }) => {
     let loginInformation;
@@ -16,12 +14,7 @@ const ProtectedRoute = ({ component: Component, history, ...rest }) => {
 
     if (!loginInformation.token) return <Redirect to="/auth" />
 
-    axios.get(`${API_URL}/user/verify`, { headers: { Authorization: `Bearer ${loginInformation.token}` } })
-        .catch((error) => {
-            console.log(error.response);
-        })
-
-
+    if (!loginInformation.publicProfile) return <Redirect to="/auth" />
 
     return (
         <Route component={Component} {...rest} />

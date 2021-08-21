@@ -17,6 +17,7 @@ import {
   fetchGeneralMessage,
   handleSendMessage
 } from "./services"
+import socketLogic from './socket.logic'
 import "./style.scss"
 
 const Main = (props) => {
@@ -38,6 +39,7 @@ const Main = (props) => {
   const handleMessageForm = handleSendMessage(messageInput, setMessageInput, setRoomMessages, focusRoom)
   const handleLogout = (e) => { e.preventDefault(); logout() }
   const handleBackButtonInRoom = () => { setFocusRoom(); setFocusMain(false); }
+  const handleUpdate = () => { fetchGeneralMessage(setGeneralMessages, roomData) }
 
   const clickRoom = showMessages({ setRoom, setFocusRoom })
 
@@ -65,6 +67,10 @@ const Main = (props) => {
     }
 
   }, [focusRoom, generalMessages, focusMain])
+
+  useEffect(() => {
+    socketLogic()
+  }, [])
 
 
 
@@ -136,9 +142,6 @@ const Main = (props) => {
               <div className="room">
 
                 {roomMessages && roomMessages.map((message) => {
-                  console.log(message.sender)
-                  console.log(user._id)
-                  console.log(user)
                   return (
                     <ChatBox
                       key={message._id}
