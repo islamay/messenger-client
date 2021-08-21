@@ -1,11 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../../helpers/env";
 
-export const authUser = (props) => {
-  const login = JSON.parse(localStorage.getItem("login"));
-  if (!login) return props.history.push("/auth");
-};
-
 export const logout = async () => {
   const login = JSON.parse(localStorage.getItem("login"));
 
@@ -26,6 +21,7 @@ export const logout = async () => {
 };
 
 export const fetchRoomData = async (setRoomData) => {
+  console.log('Fetch Room Data');
   const login = JSON.parse(localStorage.getItem("login"));
 
 
@@ -65,6 +61,7 @@ export const startChat = (setUser) => {
 
 
   return async (e) => {
+    console.log("Start Chat");
     e.preventDefault()
     const interlocutorUsername = e.target.elements.findUserInput.value
 
@@ -101,7 +98,7 @@ export const startChat = (setUser) => {
 export const showMessages = ({ setRoom, setFocusRoom }) => {
 
   return async (e) => {
-
+    console.log('Show Message');
     setRoom({
       avatarSrc: e.currentTarget.dataset.avatarSrc,
       roomName: e.currentTarget.dataset.roomName,
@@ -114,8 +111,8 @@ export const showMessages = ({ setRoom, setFocusRoom }) => {
 }
 
 export const fetchGeneralMessage = async (setGeneralMessage, roomData) => {
-
   if (!roomData) return null
+  console.log('Fetch General Message');
 
   let login = JSON.parse(localStorage.getItem('login'))
 
@@ -143,6 +140,7 @@ export const fetchGeneralMessage = async (setGeneralMessage, roomData) => {
 export const handleSendMessage = (message, setMessageInput, setRoomMessage, focusRoom) => {
 
   return async (e) => {
+    console.log('Send Message');
     e.preventDefault()
     setMessageInput('')
 
@@ -155,17 +153,13 @@ export const handleSendMessage = (message, setMessageInput, setRoomMessage, focu
     }
 
     try {
-      const result = await axios.post(`${API_URL}/message/send`,
+      await axios.post(`${API_URL}/message/send`,
         {
           message,
           roomId: focusRoom
         },
         config
       )
-
-      setRoomMessage((prev) => {
-        return [...prev, result.data]
-      })
 
     } catch (error) {
       console.log(error.response);

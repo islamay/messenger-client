@@ -9,7 +9,6 @@ import TextInput from "../../components/TextInput"
 import Room from "../../components/Room"
 import ChatBox from '../../components/ChatBox'
 import {
-  authUser,
   logout,
   fetchRoomData,
   startChat,
@@ -21,8 +20,6 @@ import socketLogic from './socket.logic'
 import "./style.scss"
 
 const Main = (props) => {
-  authUser(props)
-
   const initUser = !!JSON.parse(localStorage.getItem('login')) && JSON.parse(localStorage.getItem('login')).publicProfile
 
   const [room, setRoom] = useState()
@@ -34,18 +31,16 @@ const Main = (props) => {
   const [messageInput, setMessageInput] = useState('')
   const [focusMain, setFocusMain] = useState(false)
 
-
   const handleMessageInput = e => setMessageInput(e.target.value)
   const handleMessageForm = handleSendMessage(messageInput, setMessageInput, setRoomMessages, focusRoom)
   const handleLogout = (e) => { e.preventDefault(); logout() }
   const handleBackButtonInRoom = () => { setFocusRoom(); setFocusMain(false); }
-  const handleUpdate = () => { fetchGeneralMessage(setGeneralMessages, roomData) }
-
+  const handleStartChatForm = startChat(setUser)
   const clickRoom = showMessages({ setRoom, setFocusRoom })
 
-  const handleStartChatForm = startChat(setUser)
-
-  useEffect(() => { fetchRoomData(setRoomData) }, [user])
+  useEffect(() => {
+    fetchRoomData(setRoomData)
+  }, [user])
 
   useEffect(() => {
     fetchGeneralMessage(setGeneralMessages, roomData)
@@ -69,10 +64,15 @@ const Main = (props) => {
   }, [focusRoom, generalMessages, focusMain])
 
   useEffect(() => {
-    socketLogic()
+    socketLogic(setGeneralMessages)
   }, [])
 
+  useEffect(() => {
+    console.log('GeneralMessageUseEffect');
+  }, [generalMessages])
 
+  console.log('Triggered');
+  console.log(generalMessages);
 
   return (
     <>
