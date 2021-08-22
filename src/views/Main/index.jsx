@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import moment from 'moment'
+import ReactScrollableFeed from 'react-scrollable-feed'
 import { IoMdSend } from "react-icons/io"
 import { AiOutlineLink, AiOutlineSearch } from "react-icons/ai"
 import { HiEmojiHappy } from "react-icons/hi"
@@ -139,18 +140,24 @@ const Main = (props) => {
           </header>
           {focusRoom && (
             <>
+
               <div className="room">
 
-                {roomMessages && roomMessages.map((message) => {
-                  return (
-                    <ChatBox
-                      key={message._id}
-                      isMe={message.sender === user._id}
-                      message={message.message}
-                      date={moment(message.time).format('hh.mm')}
-                    />
-                  )
-                })}
+                <ReactScrollableFeed className="react-scrollable-feed">
+                  <div className="inner-room">
+
+                    {roomMessages && roomMessages.map((message) => {
+                      return (
+                        <ChatBox
+                          key={message._id}
+                          isMe={message.sender === user._id}
+                          message={message.message}
+                          date={moment(message.time).format('hh.mm')}
+                        />
+                      )
+                    })}
+                  </div>
+                </ReactScrollableFeed>
 
               </div>
 

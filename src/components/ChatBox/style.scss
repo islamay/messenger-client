@@ -2,12 +2,13 @@
     margin: 5px 0;
     background-color: white;
     width: max-content;
-    max-width: 500px;
+    max-width: 50%;
     padding: 6px 10px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
+
 
     .sender {
         color: #029d00;
@@ -19,6 +20,7 @@
         .chat-content {
             font-size: 13.5px;
             font-weight: 400;
+            word-break: break-word;
         }
 
         .chat-date {

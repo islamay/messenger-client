@@ -53,8 +53,8 @@ $android-theme-color: #355550;
       flex-direction: column;
       background-color: white;
       border-right: 1px solid #e6e6e6;
-      overflow-y: scroll;
       flex-grow: 1;
+      overflow-y: scroll;
 
       &::-webkit-scrollbar {
         width: 5px;
@@ -72,7 +72,8 @@ $android-theme-color: #355550;
     flex-direction: column;
 
     .main-header {
-      height: 60px !important;
+      flex-shrink: 0;
+      height: 60px;
       background-color: #ededed;
       border-left: 1px solid #e6e6e6;
       border-bottom: 1px solid #e6e6e6;
@@ -100,23 +101,39 @@ $android-theme-color: #355550;
       }
     }
 
+
     .room {
       flex-grow: 1;
       background-image: url("../../statics/main-bg.png");
-      padding: 15px 80px;
       display: flex;
       flex-direction: column;
       overflow-y: scroll;
 
       &::-webkit-scrollbar {
-        width: 5px;
+        width: 0;
       }
 
-      &::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.2);
+      .react-scrollable-feed {
+
+        &::-webkit-scrollbar {
+          width: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.2);
+        }
       }
+
+
+      .inner-room {
+        display: flex;
+        padding: 15px 80px;
+        flex-direction: column;
+      }
+
     }
   }
+
 
   .message-controll {
     background-color: #ededed;
@@ -178,6 +195,8 @@ $android-theme-color: #355550;
 
     .main {
       display: none;
+      max-width: 100vw;
+      padding-bottom: 60px;
 
       .main-header {
 
@@ -187,8 +206,10 @@ $android-theme-color: #355550;
       }
 
       .room {
-        padding: 10px 20px;
 
+        .inner-room {
+          padding: 10px 20px;
+        }
       }
 
       .message-controll {
