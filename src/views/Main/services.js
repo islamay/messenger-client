@@ -134,6 +134,8 @@ export const fetchGeneralMessage = async (setGeneralMessage, roomData) => {
     return message.data
   })
 
+  console.log(messages);
+
   setGeneralMessage(messages)
 }
 

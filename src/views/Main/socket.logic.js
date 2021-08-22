@@ -19,14 +19,15 @@ const socketLogic = (setGeneralMessages) => {
 
     socket.on('newMessage', (newMessage) => {
         console.log("New Message!");
+
         setGeneralMessages(prevGeneralMessages => {
             let roomsMessagesClone = prevGeneralMessages
+
             console.log(roomsMessagesClone);
             prevGeneralMessages.forEach((roomMessages, index) => {
-                if (!roomMessages[0]) {
 
-                } else if (roomMessages[0].toRoom === String(newMessage.toRoom)) {
-                    roomsMessagesClone[index].push(newMessage)
+                if (roomMessages.roomId === String(newMessage.toRoom)) {
+                    roomsMessagesClone[index].messages.push(newMessage)
                 }
             })
 

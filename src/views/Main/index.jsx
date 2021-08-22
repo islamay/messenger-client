@@ -51,8 +51,8 @@ const Main = (props) => {
     if (focusRoom) {
       let isChanged = false
       generalMessages.forEach((roomMessage) => {
-        if (roomMessage.length !== 0 && roomMessage[0].toRoom === focusRoom) {
-          setRoomMessages(roomMessage)
+        if (roomMessage.messages.length !== 0 && roomMessage.roomId === focusRoom) {
+          setRoomMessages(roomMessage.messages)
           isChanged = true
         }
       })
