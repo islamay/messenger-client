@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../../helpers/env";
 
+
 export const logout = async () => {
   const login = JSON.parse(localStorage.getItem("login"));
 
@@ -61,6 +62,7 @@ export const startChat = (setUser) => {
 
 
   return async (e) => {
+    alert('please wait')
     console.log("Start Chat");
     e.preventDefault()
     const interlocutorUsername = e.target.elements.findUserInput.value
@@ -79,16 +81,18 @@ export const startChat = (setUser) => {
         interlocutorUsername
       }, config)
 
-      if (roomRequest.status === 201) {
+      if (roomRequest.status === 201 || roomRequest.status === 200) {
         const res = await axios.get(`${API_URL}/user/find-by-token`, config)
 
         login.publicProfile = res.data
         localStorage.setItem('login', JSON.stringify(login))
         setUser(login.publicProfile)
+        window.location.reload()
         return console.log(res);
       }
 
     } catch (error) {
+      alert('user not found')
       console.log(error.response);
     }
   }
@@ -167,4 +171,25 @@ export const handleSendMessage = (message, setMessageInput, setRoomMessage, focu
 
   }
 
+}
+
+export const updateUser = () => {
+
+  const login = JSON.parse(localStorage.getItem("login"));
+
+  const config = {
+    headers: {
+      authorization: `Bearer ${login.token}`
+    }
+  }
+
+  axios.get(`${API_URL}/user/find-by-token`, config)
+    .then(result => {
+      localStorage.clear()
+      const newLoginInfo = { login, publicProfile: result.data }
+      localStorage.setItem('login', JSON.stringify(newLoginInfo))
+    })
+    .catch(() => {
+      console.log('Youre fucked up');
+    })
 }

@@ -15,7 +15,8 @@ import {
   startChat,
   showMessages,
   fetchGeneralMessage,
-  handleSendMessage
+  handleSendMessage,
+  updateUser
 } from "./services"
 import socketLogic from './socket.logic'
 import "./style.scss"
@@ -66,6 +67,7 @@ const Main = (props) => {
 
   useEffect(() => {
     socketLogic(setGeneralMessages)
+    updateUser()
   }, [])
 
   useEffect(() => {
