@@ -1,1 +1,1 @@
-export const API_URL = "http://192.168.1.17:3001";
+export const API_URL = "https://wa-clone-server.herokuapp.com/";
