@@ -51,6 +51,7 @@ const Main = (props) => {
   useEffect(() => {
     if (focusRoom) {
       let isChanged = false
+      if (!generalMessages) setRoomMessages([])
       generalMessages.forEach((roomMessage) => {
         if (roomMessage.roomId === focusRoom) {
           setRoomMessages(roomMessage.messages)
