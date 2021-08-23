@@ -4,11 +4,7 @@ import { Route, Redirect } from 'react-router-dom'
 const ProtectedRoute = ({ component: Component, history, ...rest }) => {
     let loginInformation;
 
-    try {
-        loginInformation = JSON.parse(localStorage.getItem('login'))
-    } catch (error) {
-        console.log(error.message);
-    }
+    loginInformation = JSON.parse(localStorage.getItem('login'))
 
     if (!loginInformation) return <Redirect to="/auth" />
 

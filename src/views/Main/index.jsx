@@ -9,14 +9,15 @@ import Avatar from "../../components/Avatar"
 import TextInput from "../../components/TextInput"
 import Room from "../../components/Room"
 import ChatBox from '../../components/ChatBox'
-import {
-  logout,
-  fetchRoomData,
-  startChat,
-  showMessages,
-  fetchGeneralMessage,
-  handleSendMessage
-} from "./services"
+
+// Services
+import logout from './services/logout'
+import fetchRoomData from './services/fetchRoomData'
+import startChat from './services/startChat'
+import showMessages from './services/showMessages'
+import fetchGeneralMessage from './services/fetchGeneralMessages'
+import sendMessage from './services/sendMessage'
+import updateUser from './services/updateUser'
 import socketLogic from './socket.logic'
 import "./style.scss"
 
@@ -33,7 +34,7 @@ const Main = (props) => {
   const [focusMain, setFocusMain] = useState(false)
 
   const handleMessageInput = e => setMessageInput(e.target.value)
-  const handleMessageForm = handleSendMessage(messageInput, setMessageInput, setRoomMessages, focusRoom)
+  const handleMessageForm = sendMessage(messageInput, setMessageInput, setRoomMessages, focusRoom)
   const handleLogout = (e) => { e.preventDefault(); logout() }
   const handleBackButtonInRoom = () => { setFocusRoom(); setFocusMain(false); }
   const handleStartChatForm = startChat(setUser)
@@ -51,7 +52,7 @@ const Main = (props) => {
     if (focusRoom) {
       let isChanged = false
       generalMessages.forEach((roomMessage) => {
-        if (roomMessage.messages.length !== 0 && roomMessage.roomId === focusRoom) {
+        if (roomMessage.roomId === focusRoom) {
           setRoomMessages(roomMessage.messages)
           isChanged = true
         }
@@ -66,13 +67,10 @@ const Main = (props) => {
 
   useEffect(() => {
     socketLogic(setGeneralMessages)
+    updateUser()
+
   }, [])
 
-  useEffect(() => {
-    console.log('GeneralMessageUseEffect');
-  }, [generalMessages])
-
-  console.log('Triggered');
   console.log(generalMessages);
 
   return (
