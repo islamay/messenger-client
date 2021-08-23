@@ -15,31 +15,23 @@ const Home = (props) => {
   const handlePassword = (e) => setPassword(e.target.value);
   const handleConfirmPassword = (e) => setConfirmPassword(e.target.value);
 
-  authUser(props);
-
   const loginWrapper = (e) => {
     e.preventDefault();
-    login({ username, password }, props).catch((error) => {
-
-      setErrorData(error.message);
-    });
+    login({ username, password }, props).catch((error) => setErrorData(error.message))
   };
 
   const signupWrapper = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      return setErrorData("password didnt match");
-    }
-    signup({ username, email, password }, props).catch((error) => {
-      setErrorData(error.message);
-    });
+    if (password !== confirmPassword) return setErrorData("password didnt match");
+    signup({ username, email, password }, props).catch((error) => setErrorData(error.message));
   };
 
   useEffect(() => {
-    let param = new URLSearchParams(window.location.search);
-    param = param.get("m");
-    setAuthMethod(param);
-  }, []);
+    const method = (new URLSearchParams(window.location.search)).get('m')
+    setAuthMethod(method)
+  }, [])
+
+  authUser(props)
 
   return (
     <div className="home-page">
